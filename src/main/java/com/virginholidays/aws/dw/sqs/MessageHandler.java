@@ -1,13 +1,12 @@
-package io.interact.sqsdw.sqs;
+package com.virginholidays.aws.dw.sqs;
 
-import com.amazonaws.services.sqs.model.Message;
-import com.amazonaws.services.sqs.model.MessageAttributeValue;
-import io.interact.sqsdw.sqs.SqsListenerImpl;
+import software.amazon.awssdk.services.sqs.model.Message;
+import software.amazon.awssdk.services.sqs.model.MessageAttributeValue;
 
 /**
  * Handles messages that were received by the {@link SqsListenerImpl}.
  * 
- * @author Bas Cancrinus
+ * @author Veysel Tosun
  */
 public abstract class MessageHandler {
 
@@ -16,7 +15,7 @@ public abstract class MessageHandler {
      */
     public static final String ATTR_MESSAGE_TYPE = "MessageType";
 
-    private String messageType;
+    private final String messageType;
 
     /**
      * Implementors are strongly encouraged to call this constructor with a
@@ -45,12 +44,12 @@ public abstract class MessageHandler {
             return false;
         }
 
-        MessageAttributeValue attrValue = message.getMessageAttributes().get(ATTR_MESSAGE_TYPE);
+        MessageAttributeValue attrValue = message.messageAttributes().get(ATTR_MESSAGE_TYPE);
         if (attrValue == null) {
             return false;
         }
 
-        return attrValue.getStringValue().equalsIgnoreCase(messageType);
+        return attrValue.stringValue().equalsIgnoreCase(messageType);
     }
 
     /**
