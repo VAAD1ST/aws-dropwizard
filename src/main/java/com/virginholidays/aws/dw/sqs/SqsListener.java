@@ -1,13 +1,11 @@
-package io.interact.sqsdw.sqs;
+package com.virginholidays.aws.dw.sqs;
 
 import io.dropwizard.lifecycle.Managed;
 
-import com.amazonaws.services.sqs.AmazonSQS;
-
 /**
- * Managed {@link AmazonSQS} queue listener.
+ * Managed {@link software.amazon.awssdk.services.sqs.SqsClient} queue listener.
  * 
- * @author Bas Cancrinus
+ * @author Veysel Tosun
  */
 public interface SqsListener extends Managed {
 

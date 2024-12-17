@@ -1,7 +1,10 @@
 # aws-dropwizard
-You can find the latest release on Maven Central: <http://search.maven.org> under:
-- Group ID: ``io.interact``
-- Artifact ID: ``sqs-dropwizard``
+You can find the latest release on Maven Central: <https://nexus.webdev.vholsinternal.co.uk/> under:
+- Group ID: ``com.virginholidays.aws``
+- Artifact ID: ``dw``
+
+[![Build Status](https://travis-ci.org/VAAD1ST/aws-dropwizard.svg?branch=master)](https://travis-ci.org/VAAD1ST/aws-dropwizard)
+[![Coverage Status](https://coveralls.io/repos/github/VAAD1ST/aws-dropwizard/badge.svg?branch=master)](https://coveralls.io/github/VAAD1ST/aws-dropwizard?branch=master)
 
 ## Introduction
 
@@ -57,18 +60,17 @@ sqsListenQueueUrl: https://sqs...
 (you can register multiple MessageHandler instances with the queue listener):
 
 ````java
-package ...;
 
-import io.interact.sqsdw.sqs.MessageHandler;
+import com.virginholidays.aws.dw.sqs.MessageHandler;
 
 public class MessageHandlerImpl extends MessageHandler {
 
-	public MessageHandlerImpl() {
+    public MessageHandlerImpl() {
         super("MyMessageType");
     }
 
     public void handle(Message message) {
-		// Message processing here.
+        // Message processing here.
     }
 
 }
@@ -80,9 +82,9 @@ public class MessageHandlerImpl extends MessageHandler {
 ````java
     @Override
     public void run(IlinkSfdcConfiguration conf, Environment env) {
-        final AmazonSQS sqs = conf.getSqsFactory().buildSQSClient(env);
+        final SqsClient sqs = conf.getSqsFactory().buildSQSClient(env);
 
-        final MessageHandler handler = ...
+        final MessageHandler handler = ...;
 
         final Set<MessageHandler> handlers = new HashSet<>();
         handlers.add(handler);
@@ -113,7 +115,7 @@ You'll now have an extra health check called "SqsListener" that monitors the hea
 ````java
     @Override
     public void run(IlinkSfdcConfiguration conf, Environment env) {
-        final AmazonSNS sns = conf.getSqsFactory().buildSNSClient(env);
+        final SNSClient sns = conf.getSqsFactory().buildSNSClient(env);
         sns.publish("arn", "hello world");
    
     }
